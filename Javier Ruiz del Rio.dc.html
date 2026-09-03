@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Libre+Franklin:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#f6f4ee;color:#17150f;font-family:"Libre Franklin",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:#8a3f1e;text-decoration:none}
+  a:hover{color:#17150f}
+  ::selection{background:#8a3f1e;color:#f6f4ee}
+  .reg-row{transition:background .12s}
+  .reg-row:hover{background:rgba(138,63,30,.055)}
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#17150f"/><text x="50" y="59" font-family="Georgia, serif" font-size="34" fill="#f6f4ee" text-anchor="middle">JR</text></svg></template>
+
+<div style="min-height:100vh;overflow-x:hidden">
+
+  <header id="top" style="padding:34px 40px 24px;max-width:1180px;margin:0 auto;box-sizing:border-box">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:32px 40px">
+      <div style="max-width:60ch">
+        <h1 style="margin:0 0 10px;font:600 clamp(26px,3vw,34px)/1.1 'Libre Franklin',sans-serif;letter-spacing:-.03em">Javier Ruiz del Río</h1>
+        <p style="margin:0;font:400 13.5px/1.6 'Libre Franklin',sans-serif;color:rgba(23,21,15,.6)">One register, everything dated: writing, artworks, talks. Filter it below.</p>
+      </div>
+      <div style="flex:1 1 220px;min-width:200px;max-width:280px">
+        <div style="font:400 10.5px/1.6 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45);letter-spacing:.04em;padding-bottom:8px;border-bottom:1px solid rgba(23,21,15,.18)">Index rev. 09 / 2026</div>
+        <div style="margin-top:9px;font:400 13.5px/1.75 'Libre Franklin',sans-serif">
+          <a href="mailto:javierruizdelrio@outlook.com">Email me →</a><br>
+          <a href="https://www.socanth.cam.ac.uk/people/javier-ruiz" target="_blank">Cambridge page ↗</a><br>
+          <a href="https://www.stichtingprom.nl" target="_blank">stichtingprom.nl ↗</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1180px;margin:0 auto;padding:0 40px 8px;box-sizing:border-box">
+    <img src="assets/detours-9.png" alt="Detours in the dumbwaiter, installation view at Docks Dora, Turin" style="width:100%;height:min(46vh,380px);object-fit:cover;display:block;background:#e4ded1;filter:saturate(.9)">
+    <div style="display:flex;justify-content:space-between;gap:20px;padding:7px 0 0;font:400 10.5px/1.5 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45);letter-spacing:.04em">
+      <span>fig. 1 — Detours in the dumbwaiter, Docks Dora, Turin, 2026</span><span>Most recent project</span>
+    </div>
+  </div>
+
+  <div style="max-width:1180px;margin:0 auto;padding:0 40px;box-sizing:border-box">
+    <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:22px 0 13px;border-bottom:1px solid #17150f;position:sticky;top:0;background:#f6f4ee;z-index:3">
+      <span style="font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45);letter-spacing:.1em;text-transform:uppercase;margin-right:4px">Show</span>
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}</button>
+      </sc-for>
+      <span style="margin-left:auto;font:400 10.5px/1 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45);letter-spacing:.04em">{{ countLabel }}</span>
+    </div>
+
+    <sc-for list="{{ entries }}" as="e" hint-placeholder-count="10">
+      <div style="border-bottom:1px solid rgba(23,21,15,.13)">
+        <div class="reg-row" onClick="{{ e.toggle }}" style="display:grid;grid-template-columns:56px 116px minmax(0,1fr) 104px 22px;gap:20px;padding:15px 4px;align-items:baseline;cursor:pointer">
+          <span style="font:400 12.5px/1.5 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45)">{{ e.year }}</span>
+          <span style="{{ e.kindStyle }}">{{ e.kind }}</span>
+          <div>
+            <div style="font:400 clamp(15px,1.5vw,17.5px)/1.4 Spectral,serif;text-wrap:pretty">{{ e.title }}</div>
+            <sc-if value="{{ e.withLine }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:4px;font:500 12.5px/1.45 'Libre Franklin',sans-serif;letter-spacing:-.005em;color:#8a3f1e">{{ e.withLine }}</div>
+            </sc-if>
+            <div style="margin-top:3px;font:400 12.5px/1.45 'Libre Franklin',sans-serif;color:rgba(23,21,15,.58)">{{ e.meta }}</div>
+          </div>
+          <span style="font:500 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:rgba(23,21,15,.45);justify-self:end;text-align:right">{{ e.hint }}</span>
+          <span style="font-size:17px;color:rgba(23,21,15,.5);justify-self:end">{{ e.sign }}</span>
+        </div>
+
+        <sc-if value="{{ e.open }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:6px 4px 34px">
+            <sc-if value="{{ e.hasImages }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;margin-bottom:20px">
+                <sc-for list="{{ e.images }}" as="im">
+                  <div role="img" aria-label="{{ im.alt }}" title="{{ im.alt }}" style="{{ im.style }}"></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(220px,.85fr);gap:36px;align-items:start;padding-left:76px">
+              <div style="display:flex;flex-direction:column;gap:12px;max-width:64ch">
+                <sc-for list="{{ e.paras }}" as="t" hint-placeholder-count="2">
+                  <p style="margin:0;font:400 15.5px/1.62 Spectral,serif;color:rgba(23,21,15,.87);text-wrap:pretty">{{ t.text }}</p>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="font:400 11.5px/1.85 'IBM Plex Mono',monospace;color:rgba(23,21,15,.55);letter-spacing:.03em">
+                  <sc-for list="{{ e.notes }}" as="n" hint-placeholder-count="3">
+                    <span style="display:block">{{ n.text }}</span>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ e.linkUrl }}" hint-placeholder-val="{{ false }}">
+                  <a href="{{ e.linkUrl }}" target="_blank" style="align-self:flex-start;font:500 13.5px/1.4 'Libre Franklin',sans-serif;border-bottom:2px solid #8a3f1e">{{ e.linkLabel }}</a>
+                </sc-if>
+                <sc-if value="{{ e.hasCredits }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:7px;border-top:1px solid rgba(23,21,15,.18);padding-top:10px">
+                    <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(23,21,15,.45)">Credits</span>
+                    <sc-for list="{{ e.credits }}" as="cr" hint-placeholder-count="0">
+                      <div style="display:flex;gap:10px;align-items:baseline">
+                        <span style="flex:none;width:104px;font:400 10.5px/1.5 'IBM Plex Mono',monospace;letter-spacing:.03em;color:rgba(23,21,15,.45)">{{ cr.role }}</span>
+                        <span style="font:400 13px/1.5 'Libre Franklin',sans-serif">{{ cr.name }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ e.hasPress }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(23,21,15,.18);padding-top:10px">
+                    <span style="font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(23,21,15,.45)">Press</span>
+                    <sc-for list="{{ e.press }}" as="pr" hint-placeholder-count="0">
+                      <a href="{{ pr.url }}" target="_blank" style="font:400 13.5px/1.45 'Libre Franklin',sans-serif">{{ pr.name }} ↗</a>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+
+  <section id="research" style="max-width:1180px;margin:0 auto;padding:56px 40px 8px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.8fr);gap:44px;align-items:start">
+    <div>
+      <h2 style="margin:0 0 16px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Research</h2>
+      <p style="margin:0 0 14px;font:400 clamp(17px,1.7vw,21px)/1.5 Spectral,serif;letter-spacing:-.01em;text-wrap:pretty">Who actually makes art, with what skills, under what industrial conditions — and why the making is mystified.</p>
+      <p style="margin:0 0 12px;font:400 15.5px/1.62 Spectral,serif;color:rgba(23,21,15,.85);text-wrap:pretty">My doctoral research, <em>The making of art: sculptors, artisans, and artists in the Apuan Alps</em>, grew out of fourteen months of fieldwork in a Tuscan marble district in 2020–21. For centuries the district has extracted, marketed and processed marble into luxury commodities, and art manufacturing — ahead of design and architecture — has dominated local identity and commercial strategy.</p>
+      <p style="margin:0;font:400 15.5px/1.62 Spectral,serif;color:rgba(23,21,15,.85);text-wrap:pretty">While a sculpture's making can be fundamental to how we appreciate it, we respond as spectators on highly restricted and sometimes misleading information. Foregrounding production explains both how sculpture is made and why that making is hidden — a question that runs through debates on technology, practical rationality and alienation. The method combines in-person and remote fieldwork with a critical approach to historical evidence.</p>
+    </div>
+    <div>
+      <h3 style="margin:0 0 12px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Interests</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:26px">
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Contemporary art</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Southern Europe</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Craft &amp; enskillment</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Industrial labour</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Automation</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Cinema</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Social ontology</span>
+        <span style="font:400 11.5px/1 'IBM Plex Mono',monospace;padding:6px 9px;border:1px solid rgba(23,21,15,.25);color:rgba(23,21,15,.75)">Historical anthropology</span>
+      </div>
+      <div style="border-top:1px solid rgba(23,21,15,.18);padding-top:11px">
+        <img src="assets/once-marsh.png" alt="Once and for all, still, shot in Tuscany" style="width:100%;height:170px;object-fit:cover;display:block;background:#e4ded1" />
+        <div style="padding-top:7px;font:400 10.5px/1.5 'IBM Plex Mono',monospace;color:rgba(23,21,15,.45)">fig. 2 — Tuscany, 2021. Still from <em>Once and for all</em>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cv" style="max-width:1180px;margin:0 auto;padding:52px 40px 20px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px 36px;align-items:start;border-top:1px solid rgba(23,21,15,.18)">
+    <div>
+      <h2 style="margin:0 0 14px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Teaching</h2>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="border-top:1px solid rgba(23,21,15,.13);padding-top:12px">
+          <div style="font:600 15px/1.3 'Libre Franklin',sans-serif;letter-spacing:-.015em">Associate Lecturer</div>
+          <div style="margin-top:2px;font:400 13px/1.45 'Libre Franklin',sans-serif;color:rgba(23,21,15,.6)">Central Saint Martins, University of the Arts London</div>
+          <ul style="margin:9px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;font:400 13.5px/1.5 'Libre Franklin',sans-serif;color:rgba(23,21,15,.82)">
+            <li>Teaching on the MADI 5.0 master's degree</li>
+          </ul>
+        </div>
+        <div style="border-top:1px solid rgba(23,21,15,.13);padding-top:12px">
+          <div style="font:600 15px/1.3 'Libre Franklin',sans-serif;letter-spacing:-.015em">Affiliated Lecturer</div>
+          <div style="margin-top:2px;font:400 13px/1.45 'Libre Franklin',sans-serif;color:rgba(23,21,15,.6)">Department of Social Anthropology, University of Cambridge</div>
+
+          <ul style="margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font:400 13.5px/1.5 'Libre Franklin',sans-serif;color:rgba(23,21,15,.82)">
+            <li>UG supervisions and lectures in anthropological theory, economy and ethical life</li>
+            <li>MPhil group supervisor; seminars and workshops in research design and economic anthropology</li>
+            <li>Pre-sessional teaching for students from underrepresented backgrounds</li>
+            <li>Internal assessment for HPS and HSPS</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <div>
+      <h2 style="margin:0 0 14px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Education</h2>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid rgba(23,21,15,.13);font:400 13.5px/1.45 'Libre Franklin',sans-serif"><span>PhD Social Anthropology, Cambridge</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(23,21,15,.5)">2023</span></div>
+        <div style="display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid rgba(23,21,15,.13);font:400 13.5px/1.45 'Libre Franklin',sans-serif"><span>MPhil Social Anthropology, Cambridge</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(23,21,15,.5)">2018</span></div>
+        <div style="display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-top:1px solid rgba(23,21,15,.13);border-bottom:1px solid rgba(23,21,15,.13);font:400 13.5px/1.45 'Libre Franklin',sans-serif"><span>MRes Anthropology, St Andrews <span style="color:rgba(23,21,15,.5)">(Deans' List)</span></span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(23,21,15,.5)">2017</span></div>
+      </div>
+    </div>
+    <div>
+      <h2 style="margin:0 0 14px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Fellowships</h2>
+      <div style="display:flex;flex-direction:column">
+        <div style="padding:9px 0;border-top:1px solid rgba(23,21,15,.13)">
+          <div style="display:flex;justify-content:space-between;gap:14px;font:400 13.5px/1.45 'Libre Franklin',sans-serif"><span>Research Fellowship, Henry Moore Studios &amp; Gardens</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(23,21,15,.5)">2024</span></div>
+          <div style="margin-top:3px;font:400 12.5px/1.5 'Libre Franklin',sans-serif;color:rgba(23,21,15,.6)">The outsourcing of sculpture: Henry Moore's generation in the Apuan Alps — archival research on correspondence, contracts with Apuan firms and Moore's photographic collections.</div>
+          <a href="https://henry-moore.org/discover-and-research/sculpture-research-programme/visiting-research-fellowships/research-fellows-2024/" target="_blank" style="display:inline-block;margin-top:7px;font:500 12.5px/1.4 'Libre Franklin',sans-serif;border-bottom:2px solid #8a3f1e">Research fellows 2024 ↗</a>
+        </div>
+        <div style="padding:9px 0;border-top:1px solid rgba(23,21,15,.13);border-bottom:1px solid rgba(23,21,15,.13)">
+          <div style="display:flex;justify-content:space-between;gap:14px;font:400 13.5px/1.45 'Libre Franklin',sans-serif"><span>“Viaggio a Palermo” Fellowship, Bibliotheca Hertziana — Max Planck Institute, with Palazzo Butera</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:rgba(23,21,15,.5)">2026</span></div>
+          <div style="margin-top:3px;font:400 12.5px/1.5 'Libre Franklin',sans-serif;color:rgba(23,21,15,.6)">Archival research in Rome and Palermo.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 style="margin:0 0 14px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Artist duo</h2>
+      <p style="margin:0 0 14px;font:400 14px/1.55 'Libre Franklin',sans-serif;color:rgba(23,21,15,.78);text-wrap:pretty">The artistic work above is made as Prom, a duo with Federico Pozuelo formed in Amsterdam in 2017, and funded through Stichting Prom Art Collective — a Dutch non-profit foundation looking for other ways to produce art outside commodity circuits and traditional institutions.</p>
+      <a href="https://www.stichtingprom.nl" target="_blank" style="font:500 13.5px/1.4 'Libre Franklin',sans-serif;border-bottom:2px solid #8a3f1e">stichtingprom.nl ↗</a>
+    </div>
+    <div>
+      <h2 style="margin:0 0 14px;font:500 10.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(23,21,15,.5)">Contact</h2>
+      <div style="font:400 14px/1.7 'Libre Franklin',sans-serif;color:rgba(23,21,15,.82)">
+        <a href="mailto:javierruizdelrio@outlook.com">javierruizdelrio@outlook.com</a><br>
+        Department of Social Anthropology<br>
+        Free School Lane, Cambridge CB2 3RF
+      </div>
+      <a href="https://www.socanth.cam.ac.uk/people/javier-ruiz" target="_blank" style="display:inline-block;margin-top:16px;font:500 11.5px/1 'IBM Plex Mono',monospace;letter-spacing:.06em;border:1px solid #8a3f1e;padding:10px 15px">Cambridge profile ↗</a>
+    </div>
+  </section>
+
+  <footer style="max-width:1180px;margin:0 auto;padding:22px 40px 30px;box-sizing:border-box;border-top:1px solid #17150f;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font:400 10.5px/1.5 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:rgba(23,21,15,.5)">
+    <span>Javier Ruiz del Río © 2026</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180}}">
+class Component extends DCLogic {
+  state = { filter: "all", open: null };
+
+  entryData() {
+    return [
+      { id: "detours", year: "2026", k: "performance", title: "Detours in the dumbwaiter — Sublunary-superlunary", meta: "Sound composition and video installation · Docks Dora, Turin", withLine: "with Federico Pozuelo", hint: "3 images",
+        images: [
+          { src: "assets/detours-13.jpg", alt: "Detours in the dumbwaiter, installation view" },
+          { src: "assets/detours-9.png", alt: "Detours in the dumbwaiter, installation view at Docks Dora, Turin" }
+        ],
+        paras: [
+          { text: "Adapting the methods of early filmmaking, this project dwells in experiences of self-estrangement, making use of sound and image developed in a somewhat autonomous fashion. As a sound piece, Sublunary-superlunary moves between the superficiality of French incidental music — the background of low-quality internet content — and the demandingness of sonic art. To achieve this effect we resorted to iterative spatial re-amplification, transforming what were pandering scores into a shilling cascade of spectral waves." },
+          { text: "The companion video piece, displayed in the event's aftermath, takes place in Docks Dora, one of the industrial spaces where these sonic actions occurred. Taken together, the composition and video installation explore how today, in an era marked by the collapse of shared references, one is forced to develop rhetorical or aesthetic patch-ups to keep things hanging together." }
+        ],
+        notes: [
+          { text: "Performed 1 July 2026." },
+          { text: "Exhibited 2–15 July 2026, by appointment." },
+          { text: "Docks Dora, Via Valprato 68, Turin." },
+          { text: "With a scene by Nolwenn Salaün." }
+        ],
+        credits: [
+          { role: "Piano", name: "Andrea Bambini" },
+          { role: "Performers", name: "Andrea Bambini, Nolwenn Salaün" },
+          { role: "Voice", name: "Maria Valentina Chirico" },
+          { role: "Reflected voice", name: "Giulia Perracchio" },
+          { role: "Sound engineering", name: "Tommaso Massimiliano Alfì" },
+          { role: "DOP and lighting", name: "Luca Pescaglini" },
+          { role: "Make-up", name: "Giulia Bussone" }
+        ], linkUrl: null, linkLabel: null },
+
+      { id: "book", year: "in prep.", k: "book", title: "The making of art: sculptors, artisans, and artists in the Apuan Alps", meta: "Monograph, from the doctoral thesis", hint: "work in progress",
+        images: [],
+        paras: [{ text: "Based on fourteen months of fieldwork in a Tuscan marble district, 2020–21. The book sets the Apuan art-manufacturing industry inside transnational artmaking processes, arguing that circulation alone cannot explain what we value in a sculpture — and asking why the making is mystified." }],
+        notes: [{ text: "In preparation." }], linkUrl: null, linkLabel: null },
+
+      { id: "genai", year: "2026", k: "chapter", title: "Early generative technologies and the Western aristocracy of labor", meta: "In Handbook on Anthropology and Artificial Intelligence · open access", withLine: "with Xin Zhan", hint: "DOI",
+        images: [],
+        paras: [{ text: "This chapter investigates the early reception of Generative Artificial Intelligence (GenAI) among two professions often considered \u201chighly skilled\u201d: coders and artmakers. During our long-term research projects in England and Italy, between 2020 and 2023, we observed how those employed in these sectors felt a new set of challenges to their livelihoods, real or imagined, brought about by GenAI." }],
+        notes: [
+          { text: "Edward Elgar Publishing, ch. 14, pp. 211–223." },
+          { text: "Published 21 July 2026. Open access." },
+          { text: "Keywords: GenAI; skilled work; labour aristocracy; coding; art." },
+          { text: "doi.org/10.4337/9781035342204.00025" }
+        ], linkUrl: "https://doi.org/10.4337/9781035342204.00025", linkLabel: "Read the chapter ↗" },
+
+      { id: "ritual", year: "2025", k: "installation", title: "The Simulated Ritual", meta: "4K video and quadraphonic sound · Sala de Arte Joven, Madrid", withLine: "sound composition by Lee Fraser · curated by Isabella Lenzi", hint: "3 images",
+        images: [
+          { src: "assets/ritual-install.png", alt: "The Simulated Ritual, installation view at Sala de Arte Joven, Madrid" },
+          { src: "assets/ritual-landscape.png", alt: "The Simulated Ritual, still" },
+          { src: "assets/ritual-portrait.png", alt: "The Simulated Ritual, still" }
+        ],
+        paras: [
+          { text: "This project explores intercultural translations and their repercussions on ritual practices in the Spanish Peninsula. In the final installation, audiovisual testimony is presented with considerable artificiality: the work oscillates between cinematic language and visual ethnography to create a tension, inviting the visitor to question the reliability of what is being told." },
+          { text: "The sense of ambiguity is reinforced by the quadraphonic soundtrack: an acousmatic composition based on psychoacoustic techniques and spectralism, which amplifies the alienating experience." }
+        ],
+        notes: [
+          { text: "4K digital video, quadraphonic sound. Madrid, 2025." },
+          { text: "In the exhibition Caja de Resonancia." },
+          { text: "Sala de Arte Joven, Madrid." }
+        ], linkUrl: "https://youtu.be/oONqtwZREds", linkLabel: "Watch the video ↗" },
+
+      { id: "lecture", year: "2025", k: "performance", title: "Preliminary Notes for the Analysis of a Simulated Ritual", meta: "Lecture performance · National Museum of Natural Sciences, Madrid", withLine: "performed by Charlotte Ramble", hint: "2 images",
+        images: [
+          { src: "assets/lecture-room.png", alt: "Lecture at the Royal Cabinet of Natural History, Madrid" },
+          { src: "assets/lecture-ramble.png", alt: "Charlotte Ramble delivering the lecture" }
+        ],
+        paras: [
+          { text: "A lecture within the project The Simulated Ritual, performed by Charlotte Ramble at the Royal Cabinet of Natural History, Madrid. The performance explored the use of tradition in contemporary art through the form of an academic talk, presenting a series of theoretical imagination exercises alongside an analytical description of the ritual exhibited in the Sala de Arte Joven." },
+          { text: "Conceived specifically for this space, the event invited the audience to reflect on the naturalization of genealogies, the problem of causality, and the normative force that customs effectively uphold." }
+        ],
+        notes: [{ text: "National Museum of Natural Sciences (Real Gabinete de Historia Natural)." }, { text: "Madrid, 2025." }], linkUrl: null, linkLabel: null },
+
+      { id: "if", year: "2023", k: "performance", title: "Intermittent Fevers", meta: "Video-performance in three acts · OT301, Amsterdam", withLine: "with Federico Pozuelo · sound by Maria Virgin", hint: "3 images",
+        images: [
+          { src: "assets/if-still-1.png", alt: "Intermittent Fevers, still from the video-performance" },
+          { src: "assets/if-still-2.png", alt: "Intermittent Fevers, still from the video-performance" },
+          { src: "assets/intermittent-cover.jpg", alt: "Intermittent Fevers, publication cover" }
+        ],
+        paras: [
+          { text: "A video performance that delves into the intersection of pandemics, colonialism and gendered perspectives on scientific themes. Made with Federico Pozuelo, it is a live show in three acts exploring the social history of malaria across twentieth-century Europe — starting with Amsterdam in 1923 and ending in Rome in 1947." },
+          { text: "We mix live-action footage shot in Tuscany with sound recordings set in Amsterdam to explore how different Western societies employed this health emergency for local political purposes. The piece is constructed using tropes from radio drama and theatrical period pieces, in Italian and English." },
+          { text: "The show is followed by a presentation of the accompanying publication, which includes texts by Juan Arturo García, Alessandra Franetovich and Isadora P. Neves Marques: visual essays, poems and critical texts on malaria and pandemics, fascism, and gendered perspectives on scientific themes." }
+        ],
+        notes: [
+          { text: "35 min, 16:9, Full HD, stereo. 2023." },
+          { text: "Performed at OT301, Amsterdam." },
+          { text: "Supported by Amsterdams Fonds voor de Kunst." }
+        ], linkUrl: "https://youtu.be/y1UBUk0k8tk", linkLabel: "Watch an excerpt ↗" },
+
+      { id: "if-book", year: "2023", k: "book", title: "Intermittent Fevers", meta: "Publication accompanying the video-performance · supported by Amsterdams Fonds voor de Kunst", withLine: "edited with Federico Pozuelo · texts by Juan Arturo García, Alessandra Franetovich, Isadora P. Neves Marques", hint: "1 image",
+        images: [{ src: "assets/intermittent-cover.jpg", alt: "Intermittent Fevers, publication cover" }],
+        paras: [
+          { text: "The volume, presented alongside the live performance, collects visual essays, poems and critical texts that investigate the idea of malaria and pandemics, fascism, and gendered perspectives on scientific themes." }
+        ],
+        notes: [
+          { text: "Presented at OT301, Amsterdam, 2023." },
+          { text: "Supported by Amsterdams Fonds voor de Kunst (AFK)." }
+        ], linkUrl: null, linkLabel: null },
+
+      { id: "once", year: "2022", k: "film", title: "Once and for all", meta: "HD video, 20 min 09 s · Parco Arte Vivente, Turin", withLine: "with Federico Pozuelo", hint: "2 images",
+        images: [
+          { src: "assets/once-children.png", alt: "Once and for all, still" },
+          { src: "assets/once-marsh.png", alt: "Once and for all, still" }
+        ],
+        paras: [
+          { text: "An experimental video, part of the research-based project Intermittent Fevers. Shot in Tuscany in 2021, the film provides a narrative approach to the social history of malaria under Fascism, exploring the relationships between the Dutch pharmacological cartels and the Italian nation." },
+          { text: "This story larger than individuals appears through the dialogues of unassuming characters and children. It traces competing models of modernity — liberal, fascist, capitalist — showing how these narratives continue to be present in today's Italian landscapes." }
+        ],
+        notes: [{ text: "HD video, 2022." }, { text: "Shot in Tuscany, 2021." }, { text: "Presented at Teatrum Botanicum, Parco Arte Vivente, Turin, 2023." }], linkUrl: null, linkLabel: null },
+
+      { id: "nft", year: "2022", k: "performance", title: "NFT BoR", meta: "Performance, pop-up NFT Resistance Bank · W139, Amsterdam", withLine: "with Federico Pozuelo · performed by Amanda Payne", hint: "1 image",
+        images: [{ src: "assets/nft-bor-1.jpg", alt: "NFT BoR, pop-up NFT Resistance Bank at W139, Amsterdam" }],
+        paras: [{ text: "The performance carried out at W139 consisted of the opening of a physical pop-up bank, the NFT Resistance Bank. This office was designed as a space for dialogue with other art makers in the Amsterdam area, to build a community in which profit is a collective concern — an alternative to the tech-bro dream of the NFT world." }],
+        notes: [{ text: "W139, Amsterdam, 2022." }], linkUrl: null, linkLabel: null },
+
+      { id: "bor", year: "2021", k: "installation", title: "Bank of Resistance", meta: "Within Future Everyday Life · De Appel, Amsterdam", withLine: "with Federico Pozuelo · curated by Masha Domracheva", hint: "text only",
+        images: [],
+        paras: [
+          { text: "In response to Masha Domracheva's initiative, we experimented with the possibilities of blockchain technology for the support of the art community. Future Everyday Life addressed the precarity of artistic communities in Amsterdam and their role in the mechanisms of real estate." },
+          { text: "Our aim was to investigate the potential of marketing tools outside their everyday logic. Since these systems are often used for individual gain, we asked: what would it look like if this technology supported collective objectives?" }
+        ],
+        notes: [{ text: "De Appel, Amsterdam, 2021." }], linkUrl: null, linkLabel: null },
+
+      { id: "pr", year: "2019", k: "editorial", title: "Prom.run, Issue 1", meta: "Magazine, self-published", withLine: "edited with Federico Pozuelo", hint: "1 image",
+        images: [{ src: "assets/promrun-cover.png", alt: "Prom.run issue one, cover" }],
+        paras: [
+          { text: "The first issue of Prom.run, a magazine for materials we wanted to throw into the world. It began from an admitted lack of coupling to the usual artistic circuits, and from a habit already in place: sending each other things to read under the subject line 'Hey, check this out!'." },
+          { text: "The issue recovers materials and ideas from our time in Madrid, the city where we met — translations, interviews with people working there since the 1990s, and a brief research work, with cultural policy and the fabric of the arts in Spain as recurring subjects." }
+        ],
+        notes: [{ text: "Self-funded." }, { text: "Circulated in the Netherlands, Spain and Italy." }], linkUrl: "https://www.stichtingprom.nl", linkLabel: "stichtingprom.nl ↗" },
+
+      { id: "unascuola", year: "2026", k: "workshop", title: "Una Scuola al Castello di Rivoli", meta: "Ensemble session, third edition \u201cResilient Mediums\u201d · Castello di Rivoli, Turin", withLine: "with Federico Pozuelo · facilitated by Cally Spooner and Lilou Vidal",
+        images: [],
+        paras: [
+          { text: "Una Scuola is a post-graduate site of artistic education based at the Castello di Rivoli Museo d'Arte Contemporanea and active across Piedmont. Each year twelve recent graduates work collectively and critically to destructure their own disciplines and slow production down, supported by a rotating Turin-based Ensemble of artists, scientists, curators, writers, performers, philosophers, poets and economists who share workshops, lectures, seminars, walks, screenings and meals." },
+          { text: "Federico and I contribute a session in the second week, on 6 October — a day given to historical materialism in Italian cinema and beyond, and to the visual staging of life and death, following visits to the Cesare Lombroso Museum of Criminal Anthropology and the Francesco Garnier Valletti Fruit Museum in Turin." },
+          { text: "The third edition, “Resilient Mediums”, turns towards sonic fiction, archives of the affects, social choreographies, aquatic dreams, terrestrial tactics, embodied literature, and the capacity to do more with less." }
+        ],
+        notes: [
+          { text: "Session 2, 5–8 October 2026, across Turin." },
+          { text: "Developed within the CRRI, Castello di Rivoli." },
+          { text: "Founded 2024 by Cally Spooner and Lilou Vidal." },
+          { text: "una-scuola.com" }
+        ], linkUrl: "https://www.castellodirivoli.org/evento/open-call-2026-una-scuola-al-castello-di-rivoli/", linkLabel: "Castello di Rivoli ↗" },
+
+      { id: "cirn", year: "2023", k: "talk", title: "Marble and labour: encountering Carrara's materials in global high art", meta: "Invited speaker · Cambridge Italian Research Network annual symposium", withLine: null,
+        images: [],
+        paras: [{ text: "On how Carrara's marble and the labour that shapes it enter the circuits of global high art — and on what is left out of the account when the material arrives already attributed to an artist." }],
+        notes: [{ text: "University of Cambridge, 2023." }] },
+
+      { id: "injuve", year: "2022", k: "workshop", title: "Art and cinema in propagandist Italy", meta: "Invited speaker, roundtable · Amadís Gallery, Madrid", withLine: "Emerging Art Programme",
+        images: [],
+        paras: [{ text: "A roundtable on the uses of art and cinema under Italian fascism, and on the afterlives of that propagandist apparatus in the way states continue to commission and exhibit contemporary art." }],
+        notes: [{ text: "Amadís Gallery, Madrid, 2022." }] },
+
+      { id: "radioprologue", year: "2025", k: "radio", title: "Intermittent Fevers — A Radio Prologue", meta: "Audio artwork, for Disappearing Landscapes", withLine: "with Federico Pozuelo · curated by Juan Arturo García · supported by Stimuleringsfonds",
+        images: [],
+        paras: [{ text: "A radio prologue made for Disappearing Landscapes, a project tracing the connection between South America and the Netherlands through the history of quinine — the antimalarial extracted from cinchona bark, taken from the Andes and cultivated across the Dutch colonial plantations of Java. The piece works as a spoken and sonic overture to our Intermittent Fevers, which shares the same material." }],
+        notes: [
+          { text: "Audio, 2025." },
+          { text: "Curated by Juan Arturo García." },
+          { text: "Supported by Stimuleringsfonds Creatieve Industrie (NL)." }
+        ], linkUrl: "https://www.paisajesfantasma.com/en-videos/once-and-for-all", linkLabel: "Listen ↗" },
+
+      { id: "durham", year: "2024", k: "talk", title: "From art to dust: legacies of Carrara marble in a time of environmental activism", meta: "Paper given at the Health, Environment, and Anthropology conference · University of Durham",
+        images: [],
+        paras: [
+          { text: "On the afterlives of Carrara marble: how a material long valued as the substance of Western art becomes, in the same quarries, dust — a matter of respiratory health, watershed contamination and environmental politics. The paper followed that shift from the sculptor's studio to the mountainside, where extraction for calcium carbonate now far exceeds extraction for art." }
+        ],
+        notes: [
+          { text: "University of Durham, 2024." }
+        ] },
+
+      { id: "socialontology", year: "2025", k: "conference", title: "Social Ontology as the Meeting Ground", meta: "Conference convened at the Department of Social Anthropology, University of Cambridge", withLine: "organised with Edwin Jiang · funded by the International Social Ontology Society",
+        images: [],
+        paras: [
+          { text: "A conference bringing anthropologists and philosophers into the same room around social ontology — the question of what social entities are, and how collective intentions, institutions and practices come to hold the reality they do. The aim was less to import philosophical apparatus into ethnography than to test whether the two disciplines are describing the same objects at all." },
+          { text: "Edwin Jiang and I convened the programme and secured the funding, which covered speakers' travel, accommodation and hosting." }
+        ],
+        notes: [
+          { text: "Department of Social Anthropology, Cambridge." },
+          { text: "Funded by the International Social Ontology Society (ISOS)." }
+        ] },
+
+      { id: "asa2025", year: "2025", k: "panel", title: "Towards an anthropology of alienation", meta: "Panel convened at ASA2025: Critical Junctions · University of Birmingham", withLine: "convened with Kevin Yildirim",
+        images: [],
+        paras: [
+          { text: "A two-session panel reassessing theories of alienation in order to account for contemporary experiences of estrangement — from oneself or from one's surroundings — across precarity, burn-out, identity and freedom. It treated alienation not only as a negative condition but as a state of possibility: if alienation is the lack of a relation that might be expected to obtain, its more emancipatory prospects also come into view." },
+          { text: "My own paper, 'The fruits of one's labour: explaining economic alienation in Italian high art', analysed conditions of authorship in Western high art through the experiences of sculptors in the Apuan Alps, arguing that any account of alienated labour rests on interpretative choices about which social practice is taken as given." }
+        ],
+        notes: [
+          { text: "ASA2025, 11 April 2025, Birmingham." },
+          { text: "Two sessions, eight papers." }
+        ], linkUrl: "https://nomadit.co.uk/conference/asa2025/p/15892", linkLabel: "Panel programme ↗" },
+
+      { id: "lifecredit", year: "2019", k: "game", title: "LifeCredit", meta: "Experimental videogame · script and avatar · London", withLine: "co-written with Federico Pozuelo · game by Diana Ganea",
+        images: [
+          { src: "assets/lifecredit-1.png", alt: "LifeCredit, in-game office space with score interface" },
+          { src: "assets/lifecredit-2.png", alt: "LifeCredit, the avatar receiving a reconfigured job placement" }
+        ],
+        paras: [{ text: "An experimental videogame set in 2050 and loosely based on China's social credit system, in which the player takes on the role of an office worker, is scored and ranked on every action taken — and cannot win. Federico and I co-wrote the script and made the avatar." }],
+        notes: [{ text: "Game and design by Diana Ganea." }, { text: "2019." }],
+        press: [
+          { name: "It's Nice That", url: "https://www.itsnicethat.com/articles/diana-ganea-lifecredit-digital-040919" },
+          { name: "Dezeen", url: "https://www.dezeen.com/2019/10/18/lifecredit-computer-game-diana-ganea-design/" },
+          { name: "LS:N Global", url: "https://www.lsnglobal.com/articles/rollup/425" }
+        ], linkUrl: null, linkLabel: null },
+
+      { id: "oil", year: "2018", k: "film", title: "Orientation — Induction — Launch", meta: "Three-episode video trilogy · Radial Gallery, New York", withLine: "with Federico Pozuelo · curated by Deborah Levy", hint: "1 image",
+        images: [{ src: "assets/oil-avatar.png", alt: "Orientation - Induction - Launch, digital avatar composited on green screen" }],
+        paras: [{ text: "A three-episode video trilogy by Prom, presented at Radial Gallery, a virtual gallery curated by Deborah Levy. The trilogy draws on fleeting images connected to space exploration, health, and new folk-knowledge around allegedly scientific genetic studies. The 3D environments used across all three episodes — including sourced NASA assets and digital avatars — were composited with live-action green-screen footage." }],
+        notes: [{ text: "HD video trilogy, ~4 min per episode." }, { text: "Commissioned by Radial Gallery, New York." }, { text: "Released monthly online, screenable as installation." }], linkUrl: null, linkLabel: null }
+    ];
+  }
+
+  renderVals() {
+    const KINDS = {
+      book: ["Book", "#8a3f1e"],
+      article: ["Article", "#8a3f1e"],
+      chapter: ["Chapter", "#8a3f1e"],
+      editorial: ["Editorial", "#8a3f1e"],
+      film: ["Film", "#2f5d50"],
+      performance: ["Performance", "#2f5d50"],
+      installation: ["Installation", "#2f5d50"],
+      panel: ["Panel", "rgba(23,21,15,.55)"],
+      workshop: ["Workshop", "rgba(23,21,15,.55)"],
+      conference: ["Conference", "rgba(23,21,15,.55)"],
+      game: ["Videogame", "#2f5d50"],
+      radio: ["Radio", "#2f5d50"],
+      talk: ["Talk", "rgba(23,21,15,.55)"]
+    };
+    const groups = {
+      all: () => true,
+      writing: (e) => ["article", "book", "chapter", "editorial"].indexOf(e.k) > -1,
+      art: (e) => ["film", "performance", "installation", "game", "radio"].indexOf(e.k) > -1,
+      talks: (e) => ["talk", "panel", "workshop", "conference"].indexOf(e.k) > -1
+    };
+    const yearOf = (e) => {
+      const n = parseInt(String(e.year).replace(/[^0-9]/g, ""), 10);
+      return isNaN(n) ? Infinity : n; // "in prep." sorts first
+    };
+    const all = this.entryData()
+      .map((e, i) => ({ e, i }))
+      .sort((a, b) => yearOf(b.e) - yearOf(a.e) || a.i - b.i)
+      .map((x) => x.e);
+    const f = this.state.filter;
+    const shown = all.filter(groups[f] || groups.all);
+    const labels = [["all", "Everything"], ["writing", "Writing"], ["art", "Performance & film"], ["talks", "Talks"]];
+
+    return {
+      filters: labels.map(([key, label]) => ({
+        label,
+        onClick: () => this.setState({ filter: key }),
+        style: {
+          font: "400 11.5px/1 'IBM Plex Mono',monospace",
+          padding: "7px 11px",
+          cursor: "pointer",
+          border: "1px solid " + (f === key ? "#17150f" : "rgba(23,21,15,.28)"),
+          background: f === key ? "#17150f" : "transparent",
+          color: f === key ? "#f6f4ee" : "rgba(23,21,15,.72)"
+        }
+      })),
+      countLabel: shown.length + " of " + all.length + " entries",
+      entries: shown.map((e) => {
+        const open = this.state.open === e.id;
+        return {
+          year: e.year,
+          title: e.title,
+          meta: e.meta,
+          withLine: e.withLine || null,
+          hint: open ? "" : (e.images.length ? e.images.length + (e.images.length === 1 ? " image" : " images") : e.hint),
+          sign: open ? "−" : "+",
+          open,
+          images: e.images.map((im) => ({ alt: im.alt, style: { height: "min(44vh,340px)", width: "min(60vw,560px)", flex: "0 0 auto", background: "#e4ded1 center/cover no-repeat url(" + im.src + ")", scrollSnapAlign: "start" } })),
+          hasImages: e.images.length > 0,
+          paras: e.paras,
+          notes: e.notes,
+          linkUrl: e.linkUrl,
+          credits: e.credits || [],
+          hasCredits: (e.credits || []).length > 0,
+          press: e.press || [],
+          hasPress: !!(e.press && e.press.length),
+          linkLabel: e.linkLabel,
+          kind: KINDS[e.k][0],
+          kindStyle: {
+            font: "500 10.5px/1.5 'IBM Plex Mono',monospace",
+            letterSpacing: ".1em",
+            textTransform: "uppercase",
+            color: KINDS[e.k][1]
+          },
+          toggle: () => this.setState((s) => ({ open: s.open === e.id ? null : e.id }))
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
